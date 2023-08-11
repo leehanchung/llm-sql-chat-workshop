@@ -63,49 +63,29 @@ python data/ingest_csv.py
 chainlit run app/app.py -w
 ```
 
-## Lab 1: Basic chat with data LLM App
+## Lab 1: Gathering and Debugging Chat with SQL LLM App
 
-The most quintessential llm application is a chat with text application. These type of application uses  a retrieval augmented generation (RAG) design pattern, where the application first retrieve the relevant texts from memory and then generate answers based on the retrieved text.
+One way that people can utilize LLM to better improve their workflows is to use LLM to chat with SQL Database for some SQL query automations. These type of applications uses LLM to translate natural language query into SQL and run the SQL query against a database. The results is then summarized by the LLM.
 
-For our application, we will go through the following steps in the order of execution:
+** NOTE: Since we are running queries directly against SQL Database, there's a significant SQL Injection Risk **
 
-1. User uploads a PDF file.
-2. App load and decode the PDF into plain text.
-3. App chunks the text into smaller documents. This is because embedding models have limited input size.
-4. App stores the embeddings into memory
-5. User asks a question
-6. App retrieves the relevant documents from memory and generate an answer based on the retrieved text.
+We have created a template repository so you can play around and see how the chat with SQL Database works and how it become fragile. The goal 
 
-The overall architecture is as follows:
-![init](assets/arch_init.png)
-
-Please implement the missing pieces in the [application](app/app.py)
+Please implement extract the right files from `langchain` and `langchain_experiments` so we can tune our prompts.
 
 ### Lab 1: Solution
 
-✅ [Solution](https://github.com/leehanchung/llm-sql-chat-workshop/tree/lab1/pdf-qa-app)
+✅ [Solution](https://github.com/leehanchung/llm-sql-chat-workshop/tree/part1)
 
-## Lab 2: Basic prompt engineering
+## Lab 2: Add Prompt Chaining
 
-Playing around our newly created application using the provided [sample PDF, Gap Q1 2023 Earnings Release](samples/1Q23-EPR-with-Tables-FINAL.pdf), we run into a hallucination problem from the following long  question to ask the model to summarize the key results:
-> ```What's the results for the reporter quarter? Please describe in the following order using bullet points - revenue, gross margin, opex, op margin, net income, and EPS. INclude both gaap and non-gaap numbers. Please also include quarter over quarter changes.```
+Playing around our newly created application using the provided data, we are constantly running into problems parsing the LLM outputs. One of the reason is that if we directly use `SQLDatabaseChain`, it will attempt to invoke SQL Database every single time. This is not necessary!!
 
-A whooping 36.6% operating margin for a retail business. That is 10x higher than Amazon's consolidated operating margins!!
-
-![hallucination](assets/hallucination.png)
-
-We again asked the model a simpler and more bounded question:
-> ```What's the op margin for the current quarter```
-
-![fact](assets/fact.png)
-
-And it finds the answer.
-
-Please resolve this hallucination problem with prompt engineering.
+Please resolve this issue with prompt chaining.
 
 ### Lab 2: Solution
 
-✅ [Solution](https://github.com/leehanchung/ llm-sql-chat-workshop/tree/lab1/pdf-qa-app-final)
+✅ [Solution](https://github.com/leehanchung/llm-sql-chat-workshop/tree/part2)
 
 ## LICENSE
 
