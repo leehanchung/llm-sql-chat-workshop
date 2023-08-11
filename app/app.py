@@ -5,7 +5,8 @@ import chainlit as cl
 from dotenv import load_dotenv
 from duckdb_engine import DuckDBEngineWarning
 from langchain.chat_models import ChatOpenAI
-from langchain_experimental.sql import SQLDatabaseChain
+
+from usecases.sql import SQLDatabaseSequentialChain
 
 from database import DATABASE
 
@@ -23,9 +24,9 @@ async def init():
         temperature=0,
         streaming=True
     )
-    chain = SQLDatabaseChain.from_llm(
+    chain = SQLDatabaseSequentialChain.from_llm(
         llm=llm,    
-        db=DATABASE,
+        database=DATABASE,
         verbose=True
     )
 
@@ -40,7 +41,7 @@ async def init():
 @cl.on_message
 async def main(message):
     # Get the chain for the session
-    chain = cl.user_session.get("chain")  # type: SQLDatabaseChain
+    chain = cl.user_session.get("chain")  # type: SQLDatabaseSequentialChain
 
     answer_prefix_tokens=["Answer:"]
     
