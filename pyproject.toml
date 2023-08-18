@@ -1,11 +1,11 @@
 [tool.poetry]
-name = "llm-sql-agent-template"
+name = "llm-sql-chat-workshop"
 version = "0.1.0"
 description = ""
 authors = ["Han Lee <lee.hanchung@gmail.com>"]
 license = "LICENSE"
 readme = "README.md"
-packages = [{include = "sample_sql_agent"}]
+packages = [{include = "llm-sql-chat-workshop"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
